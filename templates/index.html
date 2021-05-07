@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>NLP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center" style="padding-top: 20px;">
+                <h1>Natural Language Processing Project</h1>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center" style="padding-top: 20px;">
+                <h3>Summarising Long Paragraphs</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12" style="padding-top: 57px;">
+                <form action='summ' class="text-center" method="post">
+                    {% csrf_token %}
+                    <p class="text-start">Enter the paragraph you want to summarise:</p><textarea class="form-control" name="inputText" placeholder="{{input}}"></textarea><button class="btn btn-outline-primary btn-lg" type="submit" style="margin-top: 28px;" >Summarise</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="padding-top: 26px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Summarised text:</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p>{{original}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="padding-top: 12px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>The frequency table</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive" style="width: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Word</th>
+                                <th>Frequency</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for key, value in freqTable.items %}
+                            <tr>
+                                <td>{{key}}</td>
+                                <td>{{value}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="padding-top: 12px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>The sentence score table</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Sentence</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for key, value in sentenceScore.items %}
+                            <tr>
+                                <td>{{key}}</td>
+                                <td>{{value}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12" style="padding-top: 12px;">
+                <h3>Threshold value: </h3><p>{{threshold}}</p>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <div class="container" style="padding-top: 12px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Summarised text after Anaphora resolution:</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p>{{anasummarized}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="padding-top: 12px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>The frequency table</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive" style="width: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Word</th>
+                                <th>Frequency</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for key, value in anafreq.items %}
+                            <tr>
+                                <td>{{key}}</td>
+                                <td>{{value}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="padding-top: 12px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>The sentence score table</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Sentence</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for key, value in anascore.items %}
+                            <tr>
+                                <td>{{key}}</td>
+                                <td>{{value}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12" style="padding-top: 12px;">
+                <h3>Threshold value: </h3><p>{{threshold}}</p>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta2/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
